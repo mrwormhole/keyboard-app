@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <link rel="stylesheet" href="/src/styles.css" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Keyboard App</title>
+    <script type="module" src="/src/main.ts" defer></script>
+</head>
+
+<body>
+    <div class="container">
+        <div class="input-container">
+            <textarea id="textInput" placeholder="" rows="3"></textarea>
+
+            <button class="clear-button" id="clearButton">Clear</button>
+        </div>
+
+        <div class="buttons-container">
+            <!-- Keyboard rows -->
+            <div id="keyboard" class="keyboard-container">
+                <!-- Row 1: Numbers and symbols -->
+                <div class="keyboard-row">
+                    <button class="key-button" data-key="1">1</button>
+                    <button class="key-button" data-key="2">2</button>
+                    <button class="key-button" data-key="3">3</button>
+                    <button class="key-button" data-key="4">4</button>
+                    <button class="key-button" data-key="5">5</button>
+                    <button class="key-button" data-key="6">6</button>
+                    <button class="key-button" data-key="7">7</button>
+                    <button class="key-button" data-key="8">8</button>
+                    <button class="key-button" data-key="9">9</button>
+                    <button class="key-button" data-key="0">0</button>
+                    <button class="key-button" data-key="-">-</button>
+                    <button class="key-button" data-key="=">=</button>
+                    <button class="key-button wide" data-key="backspace">⌫</button>
+                </div>
+
+                <!-- Row 2: Q to \ -->
+                <div class="keyboard-row">
+                    <button class="key-button" data-key="q">Q</button>
+                    <button class="key-button" data-key="w">W</button>
+                    <button class="key-button" data-key="e">E</button>
+                    <button class="key-button" data-key="r">R</button>
+                    <button class="key-button" data-key="t">T</button>
+                    <button class="key-button" data-key="y">Y</button>
+                    <button class="key-button" data-key="u">U</button>
+                    <button class="key-button" data-key="i">I</button>
+                    <button class="key-button" data-key="o">O</button>
+                    <button class="key-button" data-key="p">P</button>
+                    <button class="key-button" data-key="[">[</button>
+                    <button class="key-button" data-key="]">]</button>
+                    <button class="key-button" data-key="\">\</button>
+                </div>
+
+                <!-- Row 3: A to Enter -->
+                <div class="keyboard-row">
+                    <button class="key-button" data-key="a">A</button>
+                    <button class="key-button" data-key="s">S</button>
+                    <button class="key-button" data-key="d">D</button>
+                    <button class="key-button" data-key="f">F</button>
+                    <button class="key-button" data-key="g">G</button>
+                    <button class="key-button" data-key="h">H</button>
+                    <button class="key-button" data-key="j">J</button>
+                    <button class="key-button" data-key="k">K</button>
+                    <button class="key-button" data-key="l">L</button>
+                    <button class="key-button" data-key=";">;</button>
+                    <button class="key-button" data-key="'">'</button>
+                    <button class="key-button wide" data-key="enter">⏎</button>
+                </div>
+
+                <!-- Row 4: Shift to Space -->
+                <div class="keyboard-row">
+                    <button class="key-button wide" data-key="shift">⇧</button>
+                    <button class="key-button" data-key="\">\</button>
+                    <button class="key-button" data-key="z">Z</button>
+                    <button class="key-button" data-key="x">X</button>
+                    <button class="key-button" data-key="c">C</button>
+                    <button class="key-button" data-key="v">V</button>
+                    <button class="key-button" data-key="b">B</button>
+                    <button class="key-button" data-key="n">N</button>
+                    <button class="key-button" data-key="m">M</button>
+                    <button class="key-button" data-key=",">,</button>
+                    <button class="key-button" data-key=".">.</button>
+                    <button class="key-button" data-key="/">/</button>
+                    <button class="key-button extra-wide" data-key=" ">␣</button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,350 @@
+:root {
+  font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+
+  color: #0f0f0f;
+
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  background: #f0f0f0;
+  margin: 0;
+}
+
+.container {
+  max-width: 1200px; /* Increased for larger screens */
+  margin: 0 auto;
+  background: white;
+  padding: 30px;
+  border-radius: 10px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  width: calc(100% - 40px); /* Responsive width with padding consideration */
+  box-sizing: border-box;
+}
+
+.buttons-container {
+  margin-bottom: 30px;
+}
+
+.keyboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 100%;
+}
+
+.keyboard-row {
+  display: flex;
+  gap: 4px;
+  justify-content: center;
+  width: 100%;
+  flex-wrap: nowrap;
+}
+
+.key-button {
+  flex: 1;
+  min-width: 32px;
+  height: 44px; /* Minimum touch target size for mobile */
+  max-width: 60px; /* Increased max-width for better scaling */
+  font-size: 14px;
+  font-weight: bold;
+  border: 2px solid #333;
+  background: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.1s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.key-button.wide {
+  flex: 1.8;
+  max-width: 110px; /* Increased for larger screens */
+}
+
+.key-button.extra-wide {
+  flex: 2.5;
+  max-width: 160px; /* Increased for larger screens */
+}
+
+.key-button:hover {
+  background: #f0f0f0;
+}
+
+.key-button.active {
+  background: #4CAF50;
+  color: white;
+  transform: scale(0.95);
+}
+
+.input-container {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+#textInput {
+  width: 100%;
+  padding: 15px;
+  font-size: 18px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  margin-bottom: 15px;
+  box-sizing: border-box;
+  resize: vertical; /* Allow vertical resizing only */
+  font-family: inherit; /* Use same font as page */
+  min-height: 60px; /* Minimum height for 3 rows */
+}
+
+.clear-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  background: #f44336;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  min-height: 44px; /* Touch target */
+  transition: all 0.1s ease;
+}
+
+.clear-button:hover {
+  background: #d32f2f;
+}
+
+.clear-button.active {
+  background: #b71c1c;
+  transform: scale(0.95);
+}
+
+.hidden {
+  display: none;
+}
+
+
+
+/* Large screens - desktop and wide displays */
+@media (min-width: 769px) {
+  .container {
+    max-width: 1200px;
+    padding: 40px;
+  }
+  
+  .keyboard-row {
+    gap: 6px;
+  }
+  
+  .key-button {
+    min-width: 40px;
+    height: 50px;
+    font-size: 16px;
+    max-width: 70px;
+  }
+  
+  .key-button.wide {
+    max-width: 120px;
+  }
+  
+  .key-button.extra-wide {
+    max-width: 180px;
+  }
+  
+  #textInput {
+    font-size: 20px;
+    padding: 18px;
+  }
+  
+  .clear-button {
+    font-size: 18px;
+    padding: 12px 24px;
+  }
+}
+
+/* Extra large screens */
+@media (min-width: 1200px) {
+  .container {
+    max-width: 1400px;
+    padding: 50px;
+  }
+  
+  .keyboard-row {
+    gap: 8px;
+  }
+  
+  .key-button {
+    min-width: 50px;
+    height: 55px;
+    font-size: 18px;
+    max-width: 80px;
+  }
+  
+  .key-button.wide {
+    max-width: 140px;
+  }
+  
+  .key-button.extra-wide {
+    max-width: 200px;
+  }
+  
+  #textInput {
+    font-size: 22px;
+    padding: 20px;
+  }
+  
+  .clear-button {
+    font-size: 20px;
+    padding: 14px 28px;
+  }
+}
+
+/* Ultra-wide screens */
+@media (min-width: 1600px) {
+  .container {
+    max-width: 1600px;
+  }
+  
+  .keyboard-row {
+    gap: 10px;
+  }
+  
+  .key-button {
+    min-width: 60px;
+    height: 60px;
+    font-size: 20px;
+    max-width: 90px;
+  }
+  
+  .key-button.wide {
+    max-width: 160px;
+  }
+  
+  .key-button.extra-wide {
+    max-width: 220px;
+  }
+}
+
+/* Tablet responsiveness */
+@media (max-width: 768px) {
+  body {
+    padding: 15px;
+  }
+  
+  .container {
+    padding: 20px;
+    width: calc(100% - 30px);
+    max-width: 600px; /* Constrain on smaller screens */
+  }
+  
+  .keyboard-row {
+    gap: 3px;
+  }
+  
+  .key-button {
+    min-width: 28px;
+    height: 42px;
+    font-size: 13px;
+    max-width: 42px;
+  }
+  
+  .key-button.wide {
+    max-width: 70px;
+  }
+  
+  .key-button.extra-wide {
+    max-width: 100px;
+  }
+  
+  #textInput {
+    font-size: 16px;
+    padding: 12px;
+  }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 480px) {
+  body {
+    padding: 10px;
+  }
+  
+  .container {
+    padding: 15px;
+    width: calc(100% - 20px);
+    max-width: 480px; /* Constrain on mobile */
+    border-radius: 8px;
+  }
+  
+  .keyboard-row {
+    gap: 2px;
+  }
+  
+  .key-button {
+    min-width: 24px;
+    height: 40px;
+    font-size: 12px;
+    max-width: 38px;
+    border-width: 1px;
+  }
+  
+  .key-button.wide {
+    max-width: 60px;
+  }
+  
+  .key-button.extra-wide {
+    max-width: 85px;
+  }
+  
+  #textInput {
+    font-size: 16px;
+    padding: 10px;
+  }
+  
+  .clear-button {
+    font-size: 14px;
+    padding: 8px 16px;
+  }
+  
+  .input-container {
+    margin-bottom: 15px;
+  }
+  
+  .buttons-container {
+    margin-bottom: 20px;
+  }
+}
+
+/* Very small screens */
+@media (max-width: 360px) {
+  .container {
+    padding: 12px;
+  }
+  
+  .keyboard-row {
+    gap: 1px;
+  }
+  
+  .key-button {
+    min-width: 20px;
+    height: 38px;
+    font-size: 11px;
+    max-width: 32px;
+  }
+  
+  .key-button.wide {
+    max-width: 50px;
+  }
+  
+  .key-button.extra-wide {
+    max-width: 70px;
+  }
+}
