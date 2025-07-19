@@ -1,5 +1,18 @@
+@font-face {
+    font-family: "Sarabun";
+    src: url("/src/assets/Sarabun/Sarabun-Medium.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Ensure font loads for Thai characters specifically */
+.key-mapped {
+    font-family: "Sarabun", "Noto Sans Thai", "Leelawadee UI", Arial, sans-serif !important;
+}
+
 :root {
-    font-family: Inter, Avenir, Helvetica, Arial, sans-serif;
+    font-family: "Sarabun", Inter, Avenir, Helvetica, Arial, sans-serif;
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
@@ -14,8 +27,7 @@
 }
 
 body {
-    font-family: Arial, sans-serif;
-    padding: 20px;
+    padding: 10px;
     background: #f0f0f0;
     margin: 0;
 }
@@ -24,15 +36,11 @@ body {
     max-width: 1200px; /* Increased for larger screens */
     margin: 0 auto;
     background: white;
-    padding: 30px;
+    padding: 25px;
     border-radius: 10px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
     width: calc(100% - 40px); /* Responsive width with padding consideration */
     box-sizing: border-box;
-}
-
-.buttons-container {
-    margin-bottom: 30px;
 }
 
 .keyboard-container {
@@ -64,9 +72,25 @@ body {
     transition: all 0.1s ease;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 0;
+    justify-content: space-between;
+    padding: 4px 6px;
     box-sizing: border-box;
+    position: relative;
+}
+
+/* Dual character display styles */
+.key-original {
+    color: #333;
+    font-size: 0.85em;
+    font-weight: normal;
+    align-self: flex-start;
+}
+
+.key-mapped {
+    color: #e53e3e;
+    font-size: 0.9em;
+    font-weight: bold;
+    align-self: flex-end;
 }
 
 .key-button.wide {
@@ -89,6 +113,11 @@ body {
     transform: scale(0.95);
 }
 
+.key-button.active .key-original,
+.key-button.active .key-mapped {
+    color: rgba(255, 255, 255, 0.9);
+}
+
 .input-container {
     text-align: center;
     margin-bottom: 20px;
@@ -96,36 +125,15 @@ body {
 
 #textInput {
     width: 100%;
-    padding: 15px;
+    padding: 10px;
     font-size: 18px;
+    line-height: 36px;
     border: 2px solid #ddd;
     border-radius: 5px;
-    margin-bottom: 15px;
     box-sizing: border-box;
     resize: vertical; /* Allow vertical resizing only */
     font-family: inherit; /* Use same font as page */
     min-height: 60px; /* Minimum height for 3 rows */
-}
-
-.clear-button {
-    padding: 10px 20px;
-    font-size: 16px;
-    background: #f44336;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    min-height: 44px; /* Touch target */
-    transition: all 0.1s ease;
-}
-
-.clear-button:hover {
-    background: #d32f2f;
-}
-
-.clear-button.active {
-    background: #b71c1c;
-    transform: scale(0.95);
 }
 
 .hidden {
@@ -136,7 +144,7 @@ body {
 @media (min-width: 769px) {
     .container {
         max-width: 1200px;
-        padding: 40px;
+        /* padding: 40px; */
     }
 
     .keyboard-row {
@@ -148,6 +156,15 @@ body {
         height: 50px;
         font-size: 16px;
         max-width: 70px;
+        padding: 5px 8px;
+    }
+
+    .key-original {
+        font-size: 0.9em;
+    }
+
+    .key-mapped {
+        font-size: 1.3em;
     }
 
     .key-button.wide {
@@ -160,12 +177,6 @@ body {
 
     #textInput {
         font-size: 20px;
-        padding: 18px;
-    }
-
-    .clear-button {
-        font-size: 18px;
-        padding: 12px 24px;
     }
 }
 
@@ -173,7 +184,6 @@ body {
 @media (min-width: 1200px) {
     .container {
         max-width: 1400px;
-        padding: 50px;
     }
 
     .keyboard-row {
@@ -185,6 +195,15 @@ body {
         height: 55px;
         font-size: 18px;
         max-width: 80px;
+        padding: 6px 10px;
+    }
+
+    .key-original {
+        font-size: 1em;
+    }
+
+    .key-mapped {
+        font-size: 1.4em;
     }
 
     .key-button.wide {
@@ -197,12 +216,6 @@ body {
 
     #textInput {
         font-size: 22px;
-        padding: 20px;
-    }
-
-    .clear-button {
-        font-size: 20px;
-        padding: 14px 28px;
     }
 }
 
@@ -221,6 +234,15 @@ body {
         height: 60px;
         font-size: 20px;
         max-width: 90px;
+        padding: 8px 12px;
+    }
+
+    .key-original {
+        font-size: 1.1em;
+    }
+
+    .key-mapped {
+        font-size: 1.5em;
     }
 
     .key-button.wide {
@@ -239,7 +261,6 @@ body {
     }
 
     .container {
-        padding: 20px;
         width: calc(100% - 30px);
         max-width: 600px; /* Constrain on smaller screens */
     }
@@ -253,6 +274,15 @@ body {
         height: 42px;
         font-size: 13px;
         max-width: 42px;
+        padding: 3px 4px;
+    }
+
+    .key-original {
+        font-size: 0.8em;
+    }
+
+    .key-mapped {
+        font-size: 1.1em;
     }
 
     .key-button.wide {
@@ -265,7 +295,6 @@ body {
 
     #textInput {
         font-size: 16px;
-        padding: 12px;
     }
 }
 
@@ -276,7 +305,6 @@ body {
     }
 
     .container {
-        padding: 15px;
         width: calc(100% - 20px);
         max-width: 480px; /* Constrain on mobile */
         border-radius: 8px;
@@ -292,6 +320,15 @@ body {
         font-size: 12px;
         max-width: 38px;
         border-width: 1px;
+        padding: 2px 3px;
+    }
+
+    .key-original {
+        font-size: 0.75em;
+    }
+
+    .key-mapped {
+        font-size: 1em;
     }
 
     .key-button.wide {
@@ -304,29 +341,11 @@ body {
 
     #textInput {
         font-size: 16px;
-        padding: 10px;
-    }
-
-    .clear-button {
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    .input-container {
-        margin-bottom: 15px;
-    }
-
-    .buttons-container {
-        margin-bottom: 20px;
     }
 }
 
 /* Very small screens */
 @media (max-width: 360px) {
-    .container {
-        padding: 12px;
-    }
-
     .keyboard-row {
         gap: 1px;
     }
@@ -336,6 +355,15 @@ body {
         height: 38px;
         font-size: 11px;
         max-width: 32px;
+        padding: 1px 2px;
+    }
+
+    .key-original {
+        font-size: 0.7em;
+    }
+
+    .key-mapped {
+        font-size: 0.9em;
     }
 
     .key-button.wide {

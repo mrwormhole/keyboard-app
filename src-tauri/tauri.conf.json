@@ -14,8 +14,8 @@
     "windows": [
       {
         "title": "Keyboard App",
-        "width": 800,
-        "height": 600
+        "width": 1200,
+        "height": 500
       }
     ],
     "security": {
