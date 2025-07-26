@@ -214,6 +214,13 @@ class KeyboardApp {
         }
     }
 
+    async pasteText(): Promise<void> {
+        const text = await navigator.clipboard.readText();
+        if (text) {
+            this.appendToInput(text);
+        }
+    }
+
     setLanguage(lc: LanguageCode): void {
         this.currentLanguage = lc;
         this.isShifted = false; // Reset shift when changing language
@@ -252,6 +259,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 text: "Copy",
                 action: () => {
                     app.copyText();
+                },
+            }),
+            await MenuItem.new({
+                id: "paste",
+                text: "Paste",
+                action: () => {
+                    app.pasteText();
                 },
             }),
             await MenuItem.new({
