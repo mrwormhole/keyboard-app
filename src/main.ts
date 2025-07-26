@@ -1,45 +1,21 @@
 import { Menu, MenuItem, Submenu } from "@tauri-apps/api/menu";
 
+import {
+    BACKSPACE,
+    ENTER,
+    KEYBOARD_LAYOUTS,
+    type LanguageCode,
+    type LayoutKey,
+    ORIGINAL_LAYOUT,
+    SHIFT,
+    SPACE,
+} from "./keyboard.ts";
+
 type KeyData = {
-    key: string;
-    element: HTMLButtonElement;
-    originalText: string; // Store original button text
+    key: string; // Store button's data-key
+    element: HTMLButtonElement; // Store button
+    originalText: string; // Store button's original text
 };
-
-const SHIFT = "shift";
-const ENTER = "enter";
-const BACKSPACE = "backspace";
-const SPACE = " ";
-
-const KEYBOARD_LAYOUTS = {
-    TH: [
-        ["ๅ", "/", "-", "ภ", "ถ", "ุ", "ึ", "ค", "ต", "จ", "ข", "ช", BACKSPACE],
-        ["ๆ", "ไ", "ำ", "พ", "ะ", "ั", "ี", "ร", "น", "ย", "บ", "ล", "ฃ"],
-        ["ฟ", "ห", "ก", "ด", "เ", "้", "่", "า", "ส", "ว", "ง", ENTER],
-        [SHIFT, "ฃ", "ผ", "ป", "แ", "อ", "ิ", "ื", "ท", "ม", "ใ", "ฝ", SPACE],
-    ],
-    TH_: [
-        ["+", "๑", "๒", "๓", "๔", "ู", "฿", "๕", "๖", "๗", "๘", "๙", BACKSPACE],
-        ["๐", '"', "ฎ", "ฑ", "ธ", "ํ", "๊", "ณ", "ฯ", "ญ", "ฐ", ",", "ฅ"],
-        ["ฤ", "ฆ", "ฏ", "โ", "ฬ", "็", "๋", "ษ", "ศ", "ซ", ".", ENTER],
-        [SHIFT, "ฅ", "(", ")", "ฉ", "ฮ", "ฺ", "์", "?", "ฒ", "ฬ", "ฦ", SPACE],
-    ],
-    TR: [
-        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "-", BACKSPACE],
-        ["q", "w", "e", "r", "t", "y", "u", "ı", "o", "p", "ğ", "ü", ","],
-        ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ş", "i", ENTER],
-        [SHIFT, ",", "z", "x", "c", "v", "b", "n", "m", "ö", "ç", ".", SPACE],
-    ],
-    TR_: [
-        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "-", BACKSPACE],
-        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ğ", "Ü", ";"],
-        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ş", "İ", ENTER],
-        [SHIFT, ";", "Z", "X", "C", "V", "B", "N", "M", "Ö", "Ç", ":", SPACE],
-    ],
-};
-
-type LanguageCode = "TH" | "TR";
-type LayoutKey = "TH" | "TH_" | "TR" | "TR_";
 
 class KeyboardApp {
     private textInput: HTMLTextAreaElement;
@@ -52,33 +28,30 @@ class KeyboardApp {
         this.currentLanguage = "TH";
         this.isShifted = false;
 
-        // Initialize key buttons and store their original text
         this.keyButtons = Array.from(document.querySelectorAll(".key-button[data-key]")).map((button) => {
             const element = button as HTMLButtonElement;
             const key = element.dataset.key;
             if (!key) throw new Error("data-key attribute missing despite selector");
 
-            return {
-                key,
-                element,
-                originalText: element.textContent || key,
-            };
+            const originalText = element.textContent;
+            if (!originalText) throw new Error("button is missing text content");
+
+            return { key, element, originalText };
         });
 
-        this.initializeKeyButtonStructure();
+        this.initializeSpans();
         this.initializeEventListeners();
         this.updateKeyboardDisplay();
     }
 
-    private initializeKeyButtonStructure(): void {
-        // Restructure each button to show both original and mapped characters
+    private initializeSpans(): void {
         this.keyButtons.forEach(({ element, originalText, key }) => {
             // Skip special keys that shouldn't show dual characters
-            if ([SHIFT, ENTER, BACKSPACE].includes(key) || key === " ") {
+            if ([SHIFT, ENTER, BACKSPACE, SPACE].includes(key)) {
                 return;
             }
 
-            // Create container structure for dual display
+            // Inject dual characters display
             element.innerHTML = `
 				<span class="key-original">${originalText}</span>
 				<span class="key-mapped"></span>
@@ -91,13 +64,7 @@ class KeyboardApp {
     }
 
     private initializeEventListeners(): void {
-        // Keypress listener
-        document.addEventListener("keydown", (event: KeyboardEvent) => {
-            console.log(event.key);
-            this.handleKeyPress(event.key);
-        });
-
-        // Click listeners
+        // Mouse listener
         this.keyButtons.forEach(({ key, element }) => {
             element.addEventListener("click", (e: MouseEvent) => {
                 e.preventDefault();
@@ -108,13 +75,12 @@ class KeyboardApp {
                     this.handleShift();
                 } else if (key === ENTER) {
                     this.handleEnter();
+                } else if (key === SPACE) {
+                    this.handleSpace();
                 } else {
-                    // Get the actual character from current layout
-                    const character = this.getCharacterForPosition(key);
-                    if (character && character !== SPACE) {
+                    const character = this.getMappedChar(key);
+                    if (character) {
                         this.appendToInput(character);
-                    } else if (character === SPACE) {
-                        this.appendToInput(" ");
                     }
                 }
 
@@ -122,88 +88,66 @@ class KeyboardApp {
                 element.blur();
             });
         });
+
+        // Keyboard listener
+        document.addEventListener("keydown", (e: KeyboardEvent) => {
+            e.preventDefault();
+            this.handleKeyPress(e.key);
+        });
     }
 
-    private handleKeyPress(key: string): void {
-        // Only handle if input is not focused
-        if (document.activeElement === this.textInput) {
-            return;
-        }
-
-        key = key.toLowerCase();
-
-        // Handle special keys
-        if (key === "shift") {
+    private handleKeyPress(pressed_key: string): void {
+        pressed_key = pressed_key.toLowerCase();
+        if (pressed_key === "shift") {
             this.handleShift();
             const btn = this.keyButtons.find((btn) => btn.key === SHIFT);
             if (btn) this.animateButton(btn.element);
             return;
         }
 
-        if (key === "backspace") {
+        if (pressed_key === "backspace") {
             this.handleBackspace();
             const btn = this.keyButtons.find((btn) => btn.key === BACKSPACE);
             if (btn) this.animateButton(btn.element);
             return;
         }
 
-        if (key === "enter") {
+        if (pressed_key === "enter") {
             this.handleEnter();
             const btn = this.keyButtons.find((btn) => btn.key === ENTER);
             if (btn) this.animateButton(btn.element);
             return;
         }
 
-        // For regular keys, find the button and animate it
-        const btn = this.keyButtons.find((btn) => btn.key === key);
+        if (pressed_key === " ") {
+            this.handleSpace();
+            const btn = this.keyButtons.find((btn) => btn.key === SPACE);
+            if (btn) this.animateButton(btn.element);
+            return;
+        }
+
+        const btn = this.keyButtons.find((btn) => btn.key === pressed_key);
         if (btn) {
             this.animateButton(btn.element);
-            const character = this.getCharacterForPosition(key);
-            if (character && character !== SPACE) {
-                this.appendToInput(character);
-            } else if (character === SPACE) {
-                this.appendToInput(" ");
+            const char = this.getMappedChar(pressed_key);
+            if (char) {
+                this.appendToInput(char);
             }
         }
     }
 
-    private getCharacterForPosition(originalKey: string): string | null {
+    private getMappedChar(originalKey: string): string {
         const currentLayout = this.currentLayout();
 
-        // Map original key positions to layout positions
-        const keyPositionMap = [
-            // Row 1: numbers
-            ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
-            // Row 2: QWERTY top row
-            ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
-            // Row 3: ASDF row
-            ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
-            // Row 4: ZXCV row (excluding shift)
-            ["\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"],
-        ];
-
-        // Find the position of the key
-        for (let rowIndex = 0; rowIndex < keyPositionMap.length; rowIndex++) {
-            const colIndex = keyPositionMap[rowIndex].indexOf(originalKey);
-            if (colIndex !== -1) {
-                // Adjust column index for layout (account for shift button in row 4)
-                let layoutColIndex = colIndex;
-                if (rowIndex === 3) {
-                    layoutColIndex = colIndex + 1; // Skip shift button position
-                }
-
-                if (currentLayout[rowIndex]?.[layoutColIndex]) {
-                    return currentLayout[rowIndex][layoutColIndex];
+        for (let i = 0; i < ORIGINAL_LAYOUT.length; i++) {
+            const j = ORIGINAL_LAYOUT[i].indexOf(originalKey);
+            if (j !== -1) {
+                if (currentLayout[i]?.[j]) {
+                    return currentLayout[i][j];
                 }
             }
         }
-
-        // Handle space key specially
-        if (originalKey === " ") {
-            return SPACE;
-        }
-
-        return null;
+        return "";
     }
 
     private currentLayout(): string[][] {
@@ -212,42 +156,19 @@ class KeyboardApp {
     }
 
     private updateKeyboardDisplay(): void {
-        // BUG: probably has a bug somewhere
-        const currentLayout = this.currentLayout();
+        const currentLayout: string[][] = this.currentLayout();
 
-        // Update all key displays with mapped characters
-        const keyPositionMap = [
-            ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "="],
-            ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "[", "]", "\\"],
-            ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'"],
-            ["\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/"],
-        ];
-
-        for (let rowIndex = 0; rowIndex < keyPositionMap.length; rowIndex++) {
-            for (let colIndex = 0; colIndex < keyPositionMap[rowIndex].length; colIndex++) {
-                const originalKey = keyPositionMap[rowIndex][colIndex];
-                const button = this.keyButtons.find((btn) => btn.key === originalKey);
-
-                if (button) {
-                    let layoutColIndex = colIndex;
-                    if (rowIndex === 3) {
-                        layoutColIndex = colIndex + 1; // Account for shift button
-                    }
-
-                    const mappedChar = currentLayout[rowIndex]?.[layoutColIndex];
-                    const mappedSpan = button.element.querySelector(".key-mapped") as HTMLSpanElement;
-
-                    if (
-                        mappedSpan &&
-                        mappedChar &&
-                        mappedChar !== BACKSPACE &&
-                        mappedChar !== ENTER &&
-                        mappedChar !== SHIFT &&
-                        mappedChar !== SPACE
-                    ) {
+        for (let i = 0; i < ORIGINAL_LAYOUT.length; i++) {
+            for (let j = 0; j < ORIGINAL_LAYOUT[i].length; j++) {
+                const originalKey = ORIGINAL_LAYOUT[i][j];
+                const buttons = this.keyButtons.filter((btn) => btn.key === originalKey);
+                buttons.forEach((b) => {
+                    const mappedChar: string = currentLayout[i]?.[j];
+                    const mappedSpan: HTMLSpanElement = b.element.querySelector(".key-mapped") as HTMLSpanElement;
+                    if (mappedChar && mappedSpan) {
                         mappedSpan.textContent = mappedChar;
                     }
-                }
+                });
             }
         }
     }
@@ -261,31 +182,25 @@ class KeyboardApp {
         this.appendToInput("\n");
     }
 
+    private handleSpace(): void {
+        this.appendToInput(" ");
+    }
+
     private appendToInput(character: string): void {
         this.textInput.value += character;
-
-        // Move cursor to end if input is focused
-        if (document.activeElement === this.textInput) {
-            this.textInput.setSelectionRange(this.textInput.value.length, this.textInput.value.length);
-        }
     }
 
     private handleBackspace(): void {
         if (this.textInput.value.length > 0) {
             this.textInput.value = this.textInput.value.slice(0, -1);
-
-            // Move cursor to end if input is focused
-            if (document.activeElement === this.textInput) {
-                this.textInput.setSelectionRange(this.textInput.value.length, this.textInput.value.length);
-            }
         }
     }
 
-    private animateButton(button: HTMLButtonElement): void {
-        button.classList.add("active");
+    private animateButton(btn: HTMLButtonElement): void {
+        btn.classList.add("active");
 
         setTimeout(() => {
-            button.classList.remove("active");
+            btn.classList.remove("active");
         }, 150);
     }
 
@@ -299,8 +214,8 @@ class KeyboardApp {
         }
     }
 
-    setLanguage(language: LanguageCode): void {
-        this.currentLanguage = language;
+    setLanguage(lc: LanguageCode): void {
+        this.currentLanguage = lc;
         this.isShifted = false; // Reset shift when changing language
         this.updateKeyboardDisplay();
     }
