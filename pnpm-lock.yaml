@@ -9,10 +9,10 @@ importers:
   .:
     dependencies:
       '@tauri-apps/api':
-        specifier: ^2.7.0
+        specifier: ^2
         version: 2.7.0
       '@tauri-apps/plugin-opener':
-        specifier: ^2.4.0
+        specifier: ^2
         version: 2.4.0
     devDependencies:
       '@biomejs/biome':
