@@ -23,10 +23,17 @@ class KeyboardApp {
     private currentLanguage: LanguageCode;
     private isShifted: boolean;
 
+    private undoHistory: string[] = [];
+    private undoIndex: number = -1;
+    private maxUndoSteps: number = 50;
+
     constructor() {
         this.textInput = document.getElementById("textInput") as HTMLTextAreaElement;
         this.currentLanguage = "TH";
         this.isShifted = false;
+
+        this.undoHistory = [this.textInput.value];
+        this.undoIndex = 0;
 
         this.keyButtons = Array.from(document.querySelectorAll(".key-button[data-key]")).map((button) => {
             const element = button as HTMLButtonElement;
@@ -42,6 +49,54 @@ class KeyboardApp {
         this.initializeSpans();
         this.initializeEventListeners();
         this.updateKeyboardDisplay();
+    }
+
+    private saveState(): void {
+        const currentValue = this.textInput.value;
+
+        // Don't save if it's the same as the last state
+        if (this.undoHistory[this.undoIndex] === currentValue) {
+            return;
+        }
+
+        // Remove any redo history when making a new change
+        this.undoHistory = this.undoHistory.slice(0, this.undoIndex + 1);
+
+        // Add current state
+        this.undoHistory.push(currentValue);
+
+        // Limit history size
+        if (this.undoHistory.length > this.maxUndoSteps) {
+            this.undoHistory.shift();
+        }
+
+        this.undoIndex = this.undoHistory.length - 1;
+    }
+
+    private undo(): void {
+        // Save current state if it's not already saved
+        const currentValue = this.textInput.value;
+        if (this.undoHistory[this.undoIndex] !== currentValue) {
+            this.saveState();
+        }
+
+        if (this.undoIndex > 0) {
+            this.undoIndex--;
+            const previousValue = this.undoHistory[this.undoIndex];
+            this.textInput.value = previousValue;
+            this.textInput.focus();
+            this.textInput.setSelectionRange(previousValue.length, previousValue.length);
+        }
+    }
+
+    private redo(): void {
+        if (this.undoIndex < this.undoHistory.length - 1) {
+            this.undoIndex++;
+            const nextValue = this.undoHistory[this.undoIndex];
+            this.textInput.value = nextValue;
+            this.textInput.focus();
+            this.textInput.setSelectionRange(nextValue.length, nextValue.length);
+        }
     }
 
     private initializeSpans(): void {
@@ -91,8 +146,45 @@ class KeyboardApp {
 
         // Keyboard listener
         document.addEventListener("keydown", (e: KeyboardEvent) => {
-            e.preventDefault();
+            const allowedKeys = [
+                "ArrowUp",
+                "ArrowDown",
+                "ArrowLeft",
+                "ArrowRight",
+                "Home",
+                "End",
+                "PageUp",
+                "PageDown",
+                "Escape",
+                "Tab",
+            ];
+
+            // Allow Ctrl/Cmd combinations (like Ctrl+C, Ctrl+V)
+            if (e.ctrlKey || e.metaKey) {
+                if (e.key === "z" && !e.shiftKey) {
+                    e.preventDefault();
+                    this.undo();
+                    return;
+                }
+                if (e.key === "y" && !e.shiftKey) {
+                    e.preventDefault();
+                    this.redo();
+                    return;
+                }
+
+                return;
+            }
+
+            if (!allowedKeys.includes(e.key)) {
+                e.preventDefault();
+            }
+
             this.handleKeyPress(e.key);
+        });
+
+        // Text area Listener
+        this.textInput.addEventListener("paste", () => {
+            this.saveState();
         });
     }
 
@@ -187,13 +279,46 @@ class KeyboardApp {
     }
 
     private appendToInput(character: string): void {
-        this.textInput.value += character;
+        this.saveState();
+
+        const start = this.textInput.selectionStart || 0;
+        const end = this.textInput.selectionEnd || 0;
+        const textBefore = this.textInput.value.substring(0, start);
+        const textAfter = this.textInput.value.substring(end);
+
+        this.textInput.value = textBefore + character + textAfter;
+
+        const newCursorPosition = start + character.length;
+        this.textInput.setSelectionRange(newCursorPosition, newCursorPosition);
+        this.textInput.focus();
     }
 
     private handleBackspace(): void {
-        if (this.textInput.value.length > 0) {
-            this.textInput.value = this.textInput.value.slice(0, -1);
+        const start = this.textInput.selectionStart || 0;
+        const end = this.textInput.selectionEnd || 0;
+
+        // Only save state if we're actually going to make a change
+        if (start !== end || start > 0) {
+            this.saveState();
         }
+
+        if (start !== end) {
+            // multiple selection
+            const textBefore = this.textInput.value.substring(0, start);
+            const textAfter = this.textInput.value.substring(end);
+
+            this.textInput.value = textBefore + textAfter;
+            this.textInput.setSelectionRange(start, start);
+        } else if (start > 0) {
+            // no selection
+            const textBefore = this.textInput.value.substring(0, start - 1);
+            const textAfter = this.textInput.value.substring(start);
+
+            this.textInput.value = textBefore + textAfter;
+            this.textInput.setSelectionRange(start - 1, start - 1); // Move cursor back one position
+        }
+
+        this.textInput.focus();
     }
 
     private animateButton(btn: HTMLButtonElement): void {
