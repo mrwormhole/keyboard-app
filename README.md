@@ -1,4 +1,4 @@
-# keyboard-app
+<h1><img src="logo.png" width="64" style="vertical-align: middle;"/> keyboard-app <h1>
 
 [![Version](https://img.shields.io/github/tag/mrwormhole/keyboard-app.svg)](https://github.com/mrwormhole/keyboard-app/tags)
 [![License](https://img.shields.io/github/license/mrwormhole/keyboard-app)](https://github.com/mrwormhole/keyboard-app/blob/main/LICENSE)
