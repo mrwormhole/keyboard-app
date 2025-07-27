@@ -3,7 +3,7 @@
 [![Version](https://img.shields.io/github/tag/mrwormhole/keyboard-app.svg)](https://github.com/mrwormhole/keyboard-app/tags)
 [![License](https://img.shields.io/github/license/mrwormhole/keyboard-app)](https://github.com/mrwormhole/keyboard-app/blob/main/LICENSE)
 
-Cross-platform on-screen keyboard for different languages
+Cross-platform on-screen keyboard for different languages, keyboard app supersedes [virtual-keyboard](https://github.com/mrwormhole/virtual-keyboard)
 
 ![screenshot](screenshot.png)
 
