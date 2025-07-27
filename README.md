@@ -32,3 +32,7 @@ Already supported but my machines run on Linux so you have to report the issues 
 - Why Tauri?
 
 Smallest bundles and easy to port across different platforms.
+
+- Do you have AUR package for Arch Linux?
+
+Of course, please up-vote [this](https://aur.archlinux.org/packages/keyboard-app) ;)
