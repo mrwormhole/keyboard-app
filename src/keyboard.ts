@@ -51,7 +51,7 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
     VN_: [
         ["Ă", "Â", "Ê", "Ô", "̀", "̉", "̃", "́", "̣", "Đ", "_", "+", BACKSPACE],
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ư", "Ơ", "|"],
-        ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":", "\"", ENTER],
+        ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', ENTER],
         [SHIFT, "|", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", SPACE],
-    ]
+    ],
 };

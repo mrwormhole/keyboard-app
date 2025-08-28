@@ -10,8 +10,8 @@
     "tauri": "tauri",
     "check": "biome check ./src",
     "check:fix": "biome check --write ./src",
-    "test": "vitest",
-    "test:run": "vitest run",
+    "test": "vitest run",
+    "test:watch": "vitest",
     "test:ui": "vitest --ui",
     "test:coverage": "vitest --coverage"
   },
