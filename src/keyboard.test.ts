@@ -67,7 +67,7 @@ describe("Keyboard Layout Structure Validation", () => {
 
     describe("Layout completeness validation", () => {
         it("should have all expected layout keys defined", () => {
-            const expectedKeys: LayoutKey[] = ["TH", "TH_", "TR", "TR_"];
+            const expectedKeys: LayoutKey[] = ["TH", "TH_", "TR", "TR_", "VN", "VN_"];
             const actualKeys = Object.keys(KEYBOARD_LAYOUTS) as LayoutKey[];
 
             expect(actualKeys.sort()).toEqual(expectedKeys.sort());

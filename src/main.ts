@@ -373,6 +373,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     app.setLanguage("TR");
                 },
             }),
+            await MenuItem.new({
+                id: "vietnamese",
+                text: "Select Vietnamese",
+                action: () => {
+                    app.setLanguage("VN");
+                },
+            }),
         ],
     });
 
