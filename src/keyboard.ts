@@ -14,8 +14,8 @@ export const ORIGINAL_LAYOUT: string[][] = [
     [SHIFT, "\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", SPACE], // 13
 ];
 
-export type LanguageCode = "TH" | "TR" | "VN";
-export type LayoutKey = "TH" | "TH_" | "TR" | "TR_" | "VN" | "VN_";
+export type LanguageCode = "TH" | "TR" | "VN" | "GR";
+export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
     TH: [
@@ -53,5 +53,17 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ư", "Ơ", "|"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', ENTER],
         [SHIFT, "|", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", SPACE],
+    ],
+    GR: [
+        [";", "ς", "ε", "ρ", "τ", "υ", "θ", "ι", "ο", "π", "[", "]", BACKSPACE],
+        ["Tab", "α", "σ", "δ", "φ", "γ", "η", "ξ", "κ", "λ", "´", "`", "\\"],
+        ["α", "σ", "δ", "φ", "γ", "η", "ξ", "κ", "λ", "´", "'", ENTER],
+        [SHIFT, "<", "ζ", "χ", "ψ", "ω", "β", "ν", "μ", ",", ".", "/", SPACE],
+    ],
+    GR_: [
+        [":", "Σ", "Ε", "Ρ", "Τ", "Υ", "Θ", "Ι", "Ο", "Π", "{", "}", BACKSPACE],
+        ["Tab", "Α", "Σ", "Δ", "Φ", "Γ", "Η", "Ξ", "Κ", "Λ", "¨", "~", "|"],
+        ["Α", "Σ", "Δ", "Φ", "Γ", "Η", "Ξ", "Κ", "Λ", "¨", '"', ENTER],
+        [SHIFT, ">", "Ζ", "Χ", "Ψ", "Ω", "Β", "Ν", "Μ", "<", ">", "?", SPACE],
     ],
 };
