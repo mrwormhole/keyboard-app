@@ -407,6 +407,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     app.setLanguage("LO");
                 },
             }),
+            await MenuItem.new({
+                id: "korean",
+                text: "Select Korean",
+                action: () => {
+                    app.setLanguage("KR");
+                },
+            }),
         ],
     });
 

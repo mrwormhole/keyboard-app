@@ -2,6 +2,7 @@ export const SHIFT = "shift";
 export const ENTER = "enter";
 export const BACKSPACE = "backspace";
 export const SPACE = "space";
+export const NOOP = "noop";
 
 export const ORIGINAL_LAYOUT: string[][] = [
     // Row 1: numbers (excluding backspace)
@@ -15,7 +16,7 @@ export const ORIGINAL_LAYOUT: string[][] = [
 ];
 
 // https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
-export type LanguageCode = "TH" | "TR" | "VI" | "LO";
+export type LanguageCode = "TH" | "TR" | "VI" | "LO" | "KR";
 export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
@@ -66,5 +67,17 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["ົ້", "໐", "ຳ້", "_", "+", "ິ້", "ີ້", "ຣ", "ໜ", "ຽ", "-", "ຫຼ", "\\"],
         ["ັ້", ";", ".", ",", ":", "໊", "໋", "!", "?", "%", "=", ENTER],
         [SHIFT, "\\", "₭", "(", "ຯ", "x", "ຶ້", "ື້", "ໆ", "ໝ", "$", ")", SPACE],
+    ],
+    KR: [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "-", "=", BACKSPACE],
+        ["ㅂ", "ㅈ", "ㄷ", "ㄱ", "ㅅ", "ㅛ", "ㅕ", "ㅑ", "ㅐ", "ㅔ", "[", "]", "\\"],
+        ["ㅁ", "ㄴ", "ㅇ", "ㄹ", "ㅎ", "ㅗ", "ㅓ", "ㅏ", "ㅣ", ";", "'", ENTER],
+        [SHIFT, "ㅋ", "ㅌ", "ㅊ", "ㅍ", "ㅠ", "ㅜ", "ㅡ", ",", ".", "/", SPACE],
+    ],
+    KR_: [
+        ["!", "@", "#", "$", "%", "^", "&", "*", "(", ")", "_", "+", BACKSPACE],
+        ["ㅃ", "ㅉ", "ㄸ", "ㄲ", "ㅆ", NOOP, NOOP, NOOP, "ㅒ", "ㅖ", "{", "}", "|"],
+        [NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, ":", '"', ENTER],
+        [SHIFT, "|", NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, "<", ">", "?", SPACE],
     ],
 };
