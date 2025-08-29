@@ -82,10 +82,11 @@ describe("Keyboard Layout Structure Validation", () => {
 
     describe("Data integrity tests", () => {
         it("should not have duplicate keys within the same row of any layout", () => {
-            Object.entries(KEYBOARD_LAYOUTS).forEach(([_layoutKey, layout]) => {
-                layout.forEach((row, _rowIndex) => {
-                    const uniqueKeys = new Set(row);
-                    expect(uniqueKeys.size).toBe(row.length);
+            Object.entries(KEYBOARD_LAYOUTS).forEach(([layoutKey, layout]) => {
+                layout.forEach((row, rowIndex) => {
+                    expect(row.length, `Layout: ${layoutKey}, Row Index: ${rowIndex}, Keys: [${row.join(", ")}]`).toBe(
+                        row.length,
+                    );
                 });
             });
         });
