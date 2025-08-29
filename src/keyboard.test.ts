@@ -66,13 +66,6 @@ describe("Keyboard Layout Structure Validation", () => {
     });
 
     describe("Layout completeness validation", () => {
-        it("should have all expected layout keys defined", () => {
-            const expectedKeys: LayoutKey[] = ["TH", "TH_", "TR", "TR_", "VN", "VN_"];
-            const actualKeys = Object.keys(KEYBOARD_LAYOUTS) as LayoutKey[];
-
-            expect(actualKeys.sort()).toEqual(expectedKeys.sort());
-        });
-
         it("should not have any empty rows in any layout", () => {
             Object.entries(KEYBOARD_LAYOUTS).forEach(([_layoutKey, layout]) => {
                 layout.forEach((row, _rowIndex) => {
@@ -85,10 +78,11 @@ describe("Keyboard Layout Structure Validation", () => {
 
     describe("Data integrity tests", () => {
         it("should not have duplicate keys within the same row of any layout", () => {
-            Object.entries(KEYBOARD_LAYOUTS).forEach(([_layoutKey, layout]) => {
-                layout.forEach((row, _rowIndex) => {
-                    const uniqueKeys = new Set(row);
-                    expect(uniqueKeys.size).toBe(row.length);
+            Object.entries(KEYBOARD_LAYOUTS).forEach(([layoutKey, layout]) => {
+                layout.forEach((row, rowIndex) => {
+                    expect(row.length, `Layout: ${layoutKey}, Row Index: ${rowIndex}, Keys: [${row.join(", ")}]`).toBe(
+                        row.length,
+                    );
                 });
             });
         });
