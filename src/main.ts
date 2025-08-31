@@ -278,7 +278,7 @@ class KeyboardApp {
                     const mappedChar: string = currentLayout[i]?.[j];
                     const mappedSpan: HTMLSpanElement = b.element.querySelector(".key-mapped") as HTMLSpanElement;
                     if (mappedChar && mappedSpan) {
-                        if (mappedChar != NOOP) {
+                        if (mappedChar !== NOOP) {
                             mappedSpan.textContent = mappedChar;
                         } else {
                             mappedSpan.textContent = "";
@@ -303,8 +303,8 @@ class KeyboardApp {
     }
 
     private appendToInput(character: string): void {
-        if (character == NOOP) {
-            return
+        if (character === NOOP) {
+            return;
         }
 
         this.saveState();
