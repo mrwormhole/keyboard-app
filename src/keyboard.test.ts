@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { BACKSPACE, ENTER, KEYBOARD_LAYOUTS, type LayoutKey, ORIGINAL_LAYOUT, SHIFT, SPACE } from "./keyboard.ts";
+import { BACKSPACE, ENTER, KEYBOARD_LAYOUTS, type LayoutKey, NOOP, ORIGINAL_LAYOUT, SHIFT, SPACE } from "./keyboard.ts";
 
 describe("Keyboard Layout Structure Validation", () => {
     const ORIGINAL_ROW_LENGTHS = ORIGINAL_LAYOUT.map((row) => row.length);
@@ -84,7 +84,15 @@ describe("Keyboard Layout Structure Validation", () => {
         it("should not have duplicate keys within the same row of any layout", () => {
             Object.entries(KEYBOARD_LAYOUTS).forEach(([layoutKey, layout]) => {
                 layout.forEach((row, rowIndex) => {
-                    expect(row.length, `Layout: ${layoutKey}, Row Index: ${rowIndex}, Keys: [${row.join(", ")}]`).toBe(
+                    const uniqueKeys = new Set(row);
+                    let size = uniqueKeys.size;
+
+                    const NOOPcount = row.filter((i) => i === NOOP).length; // allow NOOP duplicates
+                    if (NOOPcount > 0) {
+                        size = size + NOOPcount - 1; // recalculate NOOP duplicates as 1
+                    }
+
+                    expect(size, `Layout: ${layoutKey}, Row Index: ${rowIndex}, Keys: [${row.join(", ")}]`).toBe(
                         row.length,
                     );
                 });
