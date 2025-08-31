@@ -6,6 +6,7 @@ import {
     KEYBOARD_LAYOUTS,
     type LanguageCode,
     type LayoutKey,
+    NOOP,
     ORIGINAL_LAYOUT,
     SHIFT,
     SPACE,
@@ -277,7 +278,11 @@ class KeyboardApp {
                     const mappedChar: string = currentLayout[i]?.[j];
                     const mappedSpan: HTMLSpanElement = b.element.querySelector(".key-mapped") as HTMLSpanElement;
                     if (mappedChar && mappedSpan) {
-                        mappedSpan.textContent = mappedChar;
+                        if (mappedChar != NOOP) {
+                            mappedSpan.textContent = mappedChar;
+                        } else {
+                            mappedSpan.textContent = "";
+                        }
                     }
                 });
             }
@@ -298,6 +303,10 @@ class KeyboardApp {
     }
 
     private appendToInput(character: string): void {
+        if (character == NOOP) {
+            return
+        }
+
         this.saveState();
 
         const start = this.textInput.selectionStart || 0;
