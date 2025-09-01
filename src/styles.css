@@ -23,9 +23,8 @@
     --font-stack: "Phetsarath", "Noto Sans Lao", "Lao UI", Inter, Avenir, Helvetica, Arial, sans-serif;
 }
 
-/* Ensure font loads for Thai characters specifically */
 .key-mapped {
-    font-family: var(--font-stack) !important;
+    font-family: var(--font-stack);
 }
 
 :root {
@@ -149,7 +148,7 @@ body {
     border-radius: 5px;
     box-sizing: border-box;
     resize: vertical; /* Allow vertical resizing only */
-    font-family: inherit; /* Use same font as page */
+    font-family: var(--font-stack);
     min-height: 60px; /* Minimum height for 3 rows */
 }
 

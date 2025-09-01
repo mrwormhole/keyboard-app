@@ -49,6 +49,7 @@ class KeyboardApp {
         this.initializeSpans();
         this.initializeEventListeners();
         this.updateKeyboardDisplay();
+        this.updateFonts(this.currentLanguage);
     }
 
     private saveState(): void {
@@ -109,7 +110,7 @@ class KeyboardApp {
             // Inject dual characters display
             element.innerHTML = `
 				<span class="key-original">${originalText}</span>
-				<span class="key-mapped font-${this.currentLanguage}"></span>
+				<span class="key-mapped"></span>
 			`;
             element.style.position = "relative";
             element.style.display = "flex";
@@ -247,6 +248,24 @@ class KeyboardApp {
         return KEYBOARD_LAYOUTS[key];
     }
 
+    private updateFonts(lang: string): void {
+        const fontClasses: string[] = Object.keys(KEYBOARD_LAYOUTS)
+            .filter((code) => !code.includes("_"))
+            .map((code) => `font-${code}`);
+
+        const elems = document.querySelectorAll(".key-mapped");
+        elems.forEach((e) => {
+            e.classList.remove(...fontClasses);
+            e.classList.add(`font-${lang}`);
+        });
+
+        const elem = document.querySelector("#textInput");
+        if (elem) {
+            elem.classList.remove(...fontClasses);
+            elem.classList.add(`font-${lang}`);
+        }
+    }
+
     private updateKeyboardDisplay(): void {
         const currentLayout: string[][] = this.currentLayout();
 
@@ -350,6 +369,7 @@ class KeyboardApp {
         this.currentLanguage = lc;
         this.isShifted = false; // Reset shift when changing language
         this.updateKeyboardDisplay();
+        this.updateFonts(this.currentLanguage);
     }
 }
 
