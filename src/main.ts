@@ -1,11 +1,12 @@
 import { Menu, MenuItem, Submenu } from "@tauri-apps/api/menu";
-
+import { HangulContext } from "khangul";
 import {
     BACKSPACE,
     ENTER,
     KEYBOARD_LAYOUTS,
     type LanguageCode,
     type LayoutKey,
+    NOOP,
     ORIGINAL_LAYOUT,
     SHIFT,
     SPACE,
@@ -22,6 +23,7 @@ class KeyboardApp {
     private keyButtons: KeyData[];
     private currentLanguage: LanguageCode;
     private isShifted: boolean;
+    private KRContext = new HangulContext();
 
     private undoHistory: string[] = [];
     private undoIndex: number = -1;
@@ -277,7 +279,11 @@ class KeyboardApp {
                     const mappedChar: string = currentLayout[i]?.[j];
                     const mappedSpan: HTMLSpanElement = b.element.querySelector(".key-mapped") as HTMLSpanElement;
                     if (mappedChar && mappedSpan) {
-                        mappedSpan.textContent = mappedChar;
+                        if (mappedChar !== NOOP) {
+                            mappedSpan.textContent = mappedChar;
+                        } else {
+                            mappedSpan.textContent = "";
+                        }
                     }
                 });
             }
@@ -298,17 +304,28 @@ class KeyboardApp {
     }
 
     private appendToInput(character: string): void {
+        if (character === NOOP) {
+            return;
+        }
+
         this.saveState();
 
         const start = this.textInput.selectionStart || 0;
         const end = this.textInput.selectionEnd || 0;
-        const textBefore = this.textInput.value.substring(0, start);
-        const textAfter = this.textInput.value.substring(end);
 
-        this.textInput.value = textBefore + character + textAfter;
+        if (this.currentLanguage === "KR") {
+            // use Khangul library
+            this.KRContext.appendLetter(character);
+            this.textInput.value = this.KRContext.getValue();
+            this.textInput.setSelectionRange(this.textInput.value.length, this.textInput.value.length);
+        } else {
+            const textBefore = this.textInput.value.substring(0, start);
+            const textAfter = this.textInput.value.substring(end);
+            this.textInput.value = textBefore + character + textAfter;
+            const newCursorPosition = start + character.length;
+            this.textInput.setSelectionRange(newCursorPosition, newCursorPosition);
+        }
 
-        const newCursorPosition = start + character.length;
-        this.textInput.setSelectionRange(newCursorPosition, newCursorPosition);
         this.textInput.focus();
     }
 
@@ -321,20 +338,27 @@ class KeyboardApp {
             this.saveState();
         }
 
-        if (start !== end) {
-            // multiple selection
-            const textBefore = this.textInput.value.substring(0, start);
-            const textAfter = this.textInput.value.substring(end);
+        if (this.currentLanguage === "KR") {
+            // use Khangul library
+            this.KRContext.removeLastLetter();
+            this.textInput.value = this.KRContext.getValue();
+            this.textInput.setSelectionRange(this.textInput.value.length, this.textInput.value.length);
+        } else {
+            if (start !== end) {
+                // multiple selection
+                const textBefore = this.textInput.value.substring(0, start);
+                const textAfter = this.textInput.value.substring(end);
 
-            this.textInput.value = textBefore + textAfter;
-            this.textInput.setSelectionRange(start, start);
-        } else if (start > 0) {
-            // no selection
-            const textBefore = this.textInput.value.substring(0, start - 1);
-            const textAfter = this.textInput.value.substring(start);
+                this.textInput.value = textBefore + textAfter;
+                this.textInput.setSelectionRange(start, start);
+            } else if (start > 0) {
+                // no selection
+                const textBefore = this.textInput.value.substring(0, start - 1);
+                const textAfter = this.textInput.value.substring(start);
 
-            this.textInput.value = textBefore + textAfter;
-            this.textInput.setSelectionRange(start - 1, start - 1); // Move cursor back one position
+                this.textInput.value = textBefore + textAfter;
+                this.textInput.setSelectionRange(start - 1, start - 1); // Move cursor back one position
+            }
         }
 
         this.textInput.focus();
@@ -350,6 +374,10 @@ class KeyboardApp {
 
     resetText() {
         this.textInput.value = "";
+        if (this.currentLanguage === "KR") {
+            // reset KR context
+            this.KRContext = new HangulContext();
+        }
     }
 
     async copyText(): Promise<void> {
@@ -405,6 +433,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 text: "Select Lao",
                 action: () => {
                     app.setLanguage("LO");
+                },
+            }),
+            await MenuItem.new({
+                id: "korean",
+                text: "Select Korean",
+                action: () => {
+                    app.setLanguage("KR");
                 },
             }),
         ],

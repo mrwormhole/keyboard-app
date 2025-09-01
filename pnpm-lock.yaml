@@ -14,6 +14,9 @@ importers:
       '@tauri-apps/plugin-opener':
         specifier: ^2.4.0
         version: 2.4.0
+      khangul:
+        specifier: ^1.0.18
+        version: 1.0.18
     devDependencies:
       '@biomejs/biome':
         specifier: 2.1.2
@@ -664,6 +667,9 @@ packages:
 
   js-tokens@9.0.1:
     resolution: {integrity: sha512-mxa9E9ITFOt0ban3j6L5MpjwegGz6lBQmM1IJkWeBZGcMxto50+eWdjC/52xDbS2vy0k7vIMK0Fe2wfL9OQSpQ==}
+
+  khangul@1.0.18:
+    resolution: {integrity: sha512-oNXnf5LR59MgkqykZlE1Lo5jAGI/S09F05yAknsgMRQBg8sxqHPXlJbfC4CR7wKh0sNGW8qAm4LeIPz3I2A3qA==}
 
   loupe@3.2.0:
     resolution: {integrity: sha512-2NCfZcT5VGVNX9mSZIxLRkEAegDGBpuQZBy13desuHeVORmBDyAET4TkJr4SjqQy3A8JDofMN6LpkK8Xcm/dlw==}
@@ -1405,6 +1411,8 @@ snapshots:
       '@pkgjs/parseargs': 0.11.0
 
   js-tokens@9.0.1: {}
+
+  khangul@1.0.18: {}
 
   loupe@3.2.0: {}
 
