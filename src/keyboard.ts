@@ -14,7 +14,8 @@ export const ORIGINAL_LAYOUT: string[][] = [
     [SHIFT, "\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", SPACE], // 13
 ];
 
-export type LanguageCode = "TH" | "TR" | "VN" | "LA";
+// https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
+export type LanguageCode = "TH" | "TR" | "VI" | "LO";
 export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
@@ -42,25 +43,25 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ş", "İ", ENTER],
         [SHIFT, ";", "Z", "X", "C", "V", "B", "N", "M", "Ö", "Ç", ":", SPACE],
     ],
-    VN: [
+    VI: [
         ["ă", "â", "ê", "ô", "̀", "̉", "̃", "́", "̣", "đ", "-", "₫", BACKSPACE],
         ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "ư", "ơ", "\\"],
         ["a", "s", "d", "f", "g", "h", "j", "k", "l", ";", "'", ENTER],
         [SHIFT, "\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", SPACE],
     ],
-    VN_: [
+    VI_: [
         ["Ă", "Â", "Ê", "Ô", "̀", "̉", "̃", "́", "̣", "Đ", "_", "+", BACKSPACE],
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ư", "Ơ", "|"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', ENTER],
         [SHIFT, "|", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", SPACE],
     ],
-    LA: [
+    LO: [
         ["ຢ", "ຟ", "ໂ", "ຖ", "ຸ", "ູ", "ຄ", "ຕ", "ຈ", "ຂ", "ຊ", "ໍ", BACKSPACE],
         ["ົ", "ໄ", "ຳ", "ພ", "ະ", "ິ", "ີ", "ຮ", "ນ", "ຍ", "ບ", "ລ", "/"],
         ["ັ", "ຫ", "ກ", "ດ", "ເ", "້", "່", "າ", "ສ", "ວ", "ງ", ENTER],
         [SHIFT, "/", "ຜ", "ປ", "ແ", "ອ", "ຶ", "ື", "ທ", "ມ", "ໃ", "ຝ", SPACE],
     ],
-    LA_: [
+    LO_: [
         ["໑", "໒", "໓", "໔", "໌", "ຼ", "໕", "໖", "໗", "໘", "໙", "ໍ", BACKSPACE],
         ["ົ້", "໐", "ຳ້", "_", "+", "ິ້", "ີ້", "ຣ", "ໜ", "ຽ", "-", "ຫຼ", "\\"],
         ["ັ້", ";", ".", ",", ":", "໊", "໋", "!", "?", "%", "=", ENTER],

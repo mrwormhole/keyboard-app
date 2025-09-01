@@ -397,14 +397,14 @@ document.addEventListener("DOMContentLoaded", async () => {
                 id: "vietnamese",
                 text: "Select Vietnamese",
                 action: () => {
-                    app.setLanguage("VN");
+                    app.setLanguage("VI");
                 },
             }),
             await MenuItem.new({
                 id: "lao",
                 text: "Select Lao",
                 action: () => {
-                    app.setLanguage("LA");
+                    app.setLanguage("LO");
                 },
             }),
         ],
