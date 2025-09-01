@@ -15,7 +15,7 @@ describe("Keyboard Layout Structure Validation", () => {
     });
 
     describe("Layout length validation", () => {
-        const layoutKeys: LayoutKey[] = ["TH", "TH_", "TR", "TR_"];
+        const layoutKeys: LayoutKey[] = Object.keys(KEYBOARD_LAYOUTS) as LayoutKey[];
 
         // Test each layout individually
         layoutKeys.forEach((layoutKey) => {
@@ -60,7 +60,7 @@ describe("Keyboard Layout Structure Validation", () => {
             layoutKeys.forEach((layoutKey) => {
                 const layout = KEYBOARD_LAYOUTS[layoutKey];
                 const rowLengths = layout.map((row) => row.length);
-                expect(rowLengths).toEqual(ORIGINAL_ROW_LENGTHS);
+                expect(rowLengths, `Layout: ${layoutKey}`).toEqual(ORIGINAL_ROW_LENGTHS);
             });
         });
     });

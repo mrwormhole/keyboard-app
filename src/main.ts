@@ -109,7 +109,7 @@ class KeyboardApp {
             // Inject dual characters display
             element.innerHTML = `
 				<span class="key-original">${originalText}</span>
-				<span class="key-mapped"></span>
+				<span class="key-mapped font-${this.currentLanguage}"></span>
 			`;
             element.style.position = "relative";
             element.style.display = "flex";
@@ -378,6 +378,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                 text: "Select Vietnamese",
                 action: () => {
                     app.setLanguage("VN");
+                },
+            }),
+            await MenuItem.new({
+                id: "lao",
+                text: "Select Lao",
+                action: () => {
+                    app.setLanguage("LA");
                 },
             }),
         ],

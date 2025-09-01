@@ -14,8 +14,8 @@ export const ORIGINAL_LAYOUT: string[][] = [
     [SHIFT, "\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", SPACE], // 13
 ];
 
-export type LanguageCode = "TH" | "TR" | "VN";
-export type LayoutKey = "TH" | "TH_" | "TR" | "TR_" | "VN" | "VN_";
+export type LanguageCode = "TH" | "TR" | "VN" | "LA";
+export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
     TH: [
@@ -54,4 +54,9 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', ENTER],
         [SHIFT, "|", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", SPACE],
     ],
+    LA: [
+        ["ຢ", "ຟ", "ໂ", "ຖ", "ຸ", "ູ", "ຄ", "ຕ", "ຈ", "ຂ", "ຊ", "ໍ", BACKSPACE],
+        ["ົ", "ໄ", "ຳ", "ພ", "ະ", "ິ", "ີ", "ຮ", "ນ", "ຍ", "ບ", "ລ", "\\"],
+    ],
+    LA_: [],
 };

@@ -6,13 +6,30 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "Phetsarath";
+    src: url("/src/assets/Phetsarath/Phetsarath-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
+/* Language-specific font variables */
+.font-TH {
+    --font-stack: "Sarabun", "Noto Sans Thai", "Leelawadee UI", Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.font-LA {
+    --font-stack: "Phetsarath", "Noto Sans Lao", "Lao UI", Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
 /* Ensure font loads for Thai characters specifically */
 .key-mapped {
-    font-family: "Sarabun", "Noto Sans Thai", "Leelawadee UI", Arial, sans-serif !important;
+    font-family: var(--font-stack) !important;
 }
 
 :root {
-    font-family: "Sarabun", Inter, Avenir, Helvetica, Arial, sans-serif;
+    --font-stack: Inter, Avenir, Helvetica, Arial, sans-serif; /* Default font stack */
     font-size: 16px;
     line-height: 24px;
     font-weight: 400;
@@ -89,7 +106,7 @@ body {
 .key-mapped {
     color: #e53e3e;
     font-size: 0.9em;
-    font-weight: bold;
+    font-weight: normal;
     align-self: flex-end;
 }
 
