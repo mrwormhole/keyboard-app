@@ -105,10 +105,9 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         [SHIFT, "|", NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, "<", ">", "?", SPACE],
     ],
     BO: [
-        
         ["༡", "༢", "༣", "༤", "༥", "༦", "༧", "༨", "༩", "༠", "ཧ", "ཝ", BACKSPACE],
         ["ཅ", "ཆ", "ེ", "ར", "ཏ", "ཡ", "ུ", "ི", "ོ", "ཕ", "ཙ", "ཚ", "ཛ"],
-        ["འ", "ས", "ད", "བ", "ང", "མ", "་" , "ག", "ལ", "ཞ" ,"།", ENTER],
+        ["འ", "ས", "ད", "བ", "ང", "མ", "་", "ག", "ལ", "ཞ", "།", ENTER],
         [SHIFT, "<", "ཟ", "ཤ", "ཀ", "ཁ", "པ", "ན", "m", "ཐ", "ཇ", "ཉ", SPACE], // m is a jump shift to 3rd layout for other marks
     ],
     BO_: [
