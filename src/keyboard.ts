@@ -14,8 +14,8 @@ export const ORIGINAL_LAYOUT: string[][] = [
     [SHIFT, "\\", "z", "x", "c", "v", "b", "n", "m", ",", ".", "/", SPACE], // 13
 ];
 
-export type LanguageCode = "TH" | "TR" | "VN";
-export type LayoutKey = "TH" | "TH_" | "TR" | "TR_" | "VN" | "VN_";
+export type LanguageCode = "TH" | "TR" | "VN" | "LA";
+export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
     TH: [
@@ -53,5 +53,17 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ư", "Ơ", "|"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", ":", '"', ENTER],
         [SHIFT, "|", "Z", "X", "C", "V", "B", "N", "M", "<", ">", "?", SPACE],
+    ],
+    LA: [
+        ["ຢ", "ຟ", "ໂ", "ຖ", "ຸ", "ູ", "ຄ", "ຕ", "ຈ", "ຂ", "ຊ", "ໍ", BACKSPACE],
+        ["ົ", "ໄ", "ຳ", "ພ", "ະ", "ິ", "ີ", "ຮ", "ນ", "ຍ", "ບ", "ລ", "/"],
+        ["ັ", "ຫ", "ກ", "ດ", "ເ", "້", "່", "າ", "ສ", "ວ", "ງ", ENTER],
+        [SHIFT, "/", "ຜ", "ປ", "ແ", "ອ", "ຶ", "ື", "ທ", "ມ", "ໃ", "ຝ", SPACE],
+    ],
+    LA_: [
+        ["໑", "໒", "໓", "໔", "໌", "ຼ", "໕", "໖", "໗", "໘", "໙", "ໍ", BACKSPACE],
+        ["ົ້", "໐", "ຳ້", "_", "+", "ິ້", "ີ້", "ຣ", "ໜ", "ຽ", "-", "ຫຼ", "\\"],
+        ["ັ້", ";", ".", ",", ":", "໊", "໋", "!", "?", "%", "=", ENTER],
+        [SHIFT, "\\", "₭", "(", "ຯ", "x", "ຶ້", "ື້", "ໆ", "ໝ", "$", ")", SPACE],
     ],
 };
