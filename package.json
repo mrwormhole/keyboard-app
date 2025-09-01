@@ -17,7 +17,8 @@
   },
   "dependencies": {
     "@tauri-apps/api": "^2.7.0",
-    "@tauri-apps/plugin-opener": "^2.4.0"
+    "@tauri-apps/plugin-opener": "^2.4.0",
+    "khangul": "^1.0.18"
   },
   "devDependencies": {
     "@biomejs/biome": "2.1.2",
