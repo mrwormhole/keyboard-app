@@ -454,6 +454,13 @@ document.addEventListener("DOMContentLoaded", async () => {
                     app.setLanguage("KR");
                 },
             }),
+            await MenuItem.new({
+                id: "tibetan",
+                text: "Select Tibetan",
+                action: () => {
+                    app.setLanguage("BO");
+                },
+            }),
         ],
     });
 

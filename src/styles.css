@@ -14,6 +14,14 @@
     font-display: swap;
 }
 
+@font-face {
+    font-family: "Uchen";
+    src: url("/src/assets/Uchen/Uchen-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}
+
 /* Language-specific font variables */
 .font-TH {
     --font-stack: "Sarabun", "Noto Sans Thai", "Leelawadee UI", Inter, Avenir, Helvetica, Arial, sans-serif;
@@ -21,6 +29,10 @@
 
 .font-LO {
     --font-stack: "Phetsarath", "Noto Sans Lao", "Lao UI", Inter, Avenir, Helvetica, Arial, sans-serif;
+}
+
+.font-BO {
+    --font-stack: "Uchen", "Noto Serif Tibetan", "Jomolhari", Inter, Avenir, Helvetica, Arial, serif;
 }
 
 .key-mapped {

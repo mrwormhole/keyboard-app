@@ -16,7 +16,7 @@ export const ORIGINAL_LAYOUT: string[][] = [
 ];
 
 // https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
-export type LanguageCode = "TH" | "TR" | "VI" | "LO" | "IT" | "DE" | "KR";
+export type LanguageCode = "TH" | "TR" | "VI" | "LO" | "IT" | "DE" | "KR" | "BO";
 export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
@@ -103,5 +103,18 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["ㅃ", "ㅉ", "ㄸ", "ㄲ", "ㅆ", NOOP, NOOP, NOOP, "ㅒ", "ㅖ", "{", "}", "|"],
         [NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, ":", '"', ENTER],
         [SHIFT, "|", NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, NOOP, "<", ">", "?", SPACE],
+    ],
+    BO: [
+        
+        ["༡", "༢", "༣", "༤", "༥", "༦", "༧", "༨", "༩", "༠", "ཧ", "ཝ", BACKSPACE],
+        ["ཅ", "ཆ", "ེ", "ར", "ཏ", "ཡ", "ུ", "ི", "ོ", "ཕ", "ཙ", "ཚ", "ཛ"],
+        ["འ", "ས", "ད", "བ", "ང", "མ", "་" , "ག", "ལ", "ཞ" ,"།", ENTER],
+        [SHIFT, "<", "ཟ", "ཤ", "ཀ", "ཁ", "པ", "ན", "m", "ཐ", "ཇ", "ཉ", SPACE], // m is a jump shift to 3rd layout for other marks
+    ],
+    BO_: [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "-", BACKSPACE],
+        ["q", "w", "e", "r", "t", "y", "u", "ı", "o", "p", "ğ", "ü", ","],
+        ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ş", "i", ENTER],
+        [SHIFT, ",", "z", "x", "c", "v", "b", "n", "M", "ö", "ç", ".", SPACE], // M is a jump shift to 4th layou for other marks
     ],
 };
