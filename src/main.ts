@@ -380,6 +380,13 @@ document.addEventListener("DOMContentLoaded", async () => {
         text: "Languages",
         items: [
             await MenuItem.new({
+                id: "german",
+                text: "Select German",
+                action: () => {
+                    app.setLanguage("DE");
+                },
+            }),
+            await MenuItem.new({
                 id: "italian",
                 text: "Select Italian",
                 action: () => {

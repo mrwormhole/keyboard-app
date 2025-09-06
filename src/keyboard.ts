@@ -15,7 +15,7 @@ export const ORIGINAL_LAYOUT: string[][] = [
 ];
 
 // https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
-export type LanguageCode = "TH" | "TR" | "VI" | "LO" | "IT";
+export type LanguageCode = "TH" | "TR" | "VI" | "LO" | "IT" | "DE";
 export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
@@ -78,5 +78,17 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "é", "*", "ú"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", "ç", "ó", ENTER],
         [SHIFT, "ú", "Z", "X", "C", "V", "B", "N", "M", ";", ":", "_", SPACE],
+    ],
+    DE: [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "ß", "´", BACKSPACE],
+        ["q", "w", "e", "r", "t", "z", "u", "i", "o", "p", "ü", "+", "#"],
+        ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ö", "ä", ENTER],
+        [SHIFT, "#", "y", "x", "c", "v", "b", "n", "m", ",", ".", "-", SPACE],
+    ],
+    DE_: [
+        ["!", '"', "§", "$", "%", "&", "/", "(", ")", "=", "?", "`", BACKSPACE],
+        ["Q", "W", "E", "R", "T", "Z", "U", "I", "O", "P", "Ü", "*", "'"],
+        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ö", "Ä", ENTER],
+        [SHIFT, "'", "Y", "X", "C", "V", "B", "N", "M", ";", ":", "_", SPACE],
     ],
 };
