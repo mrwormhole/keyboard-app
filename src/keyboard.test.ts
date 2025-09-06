@@ -31,6 +31,10 @@ describe("Keyboard Layout Structure Validation", () => {
                     expect(rowLengths).toEqual(ORIGINAL_ROW_LENGTHS);
                 });
 
+                it(`should have ANSI/ISO additional buttons to be same on ${layoutKey} layout`, () => {
+                    expect(layout[1][12]).toEqual(layout[3][1]);
+                });
+
                 ORIGINAL_LAYOUT.forEach((originalRow, rowIndex) => {
                     it(`should have row ${rowIndex + 1} with ${originalRow.length} elements`, () => {
                         expect(layout[rowIndex]).toHaveLength(originalRow.length);

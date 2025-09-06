@@ -380,6 +380,20 @@ document.addEventListener("DOMContentLoaded", async () => {
         text: "Languages",
         items: [
             await MenuItem.new({
+                id: "italian",
+                text: "Select Italian",
+                action: () => {
+                    app.setLanguage("IT");
+                },
+            }),
+            await MenuItem.new({
+                id: "lao",
+                text: "Select Lao",
+                action: () => {
+                    app.setLanguage("LO");
+                },
+            }),
+            await MenuItem.new({
                 id: "thai",
                 text: "Select Thai",
                 action: () => {
@@ -398,13 +412,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 text: "Select Vietnamese",
                 action: () => {
                     app.setLanguage("VI");
-                },
-            }),
-            await MenuItem.new({
-                id: "lao",
-                text: "Select Lao",
-                action: () => {
-                    app.setLanguage("LO");
                 },
             }),
         ],
