@@ -22,13 +22,13 @@ pnpm tauri build # or npm tauri build
 
 ### FAQs
 
-- Do you plan to add more languages?
+- What are supported languages?
 
-We can consider as long as we don't break existing languages, I will not support chinese/japanese due to the complexity it brings.
+German, Italian, Lao, Thai, Turkish, Vietnamese
 
-- Do you plan to add support for Windows or Macos?
+- What platforms are supported?
 
-Already supported but my machines run on Linux so you have to report the issues if you encounter it on Windows or Macos.
+Linux(1st class), Windows, Macos
 
 - Why Tauri?
 
