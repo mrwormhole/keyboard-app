@@ -15,7 +15,7 @@ export const ORIGINAL_LAYOUT: string[][] = [
 ];
 
 // https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
-export type LanguageCode = "TH" | "TR" | "VI" | "LO";
+export type LanguageCode = "TH" | "TR" | "VI" | "LO" | "IT";
 export type LayoutKey = LanguageCode | `${LanguageCode}_`;
 
 export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
@@ -38,7 +38,7 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         [SHIFT, ",", "z", "x", "c", "v", "b", "n", "m", "ö", "ç", ".", SPACE],
     ],
     TR_: [
-        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "*", "-", BACKSPACE],
+        ["!", "'", "^", "+", "%", "&", "/", "(", ")", "=", "?", "_", BACKSPACE],
         ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "Ğ", "Ü", ";"],
         ["A", "S", "D", "F", "G", "H", "J", "K", "L", "Ş", "İ", ENTER],
         [SHIFT, ";", "Z", "X", "C", "V", "B", "N", "M", "Ö", "Ç", ":", SPACE],
@@ -66,5 +66,17 @@ export const KEYBOARD_LAYOUTS: Record<LayoutKey, string[][]> = {
         ["ົ້", "໐", "ຳ້", "_", "+", "ິ້", "ີ້", "ຣ", "ໜ", "ຽ", "-", "ຫຼ", "\\"],
         ["ັ້", ";", ".", ",", ":", "໊", "໋", "!", "?", "%", "=", ENTER],
         [SHIFT, "\\", "₭", "(", "ຯ", "x", "ຶ້", "ື້", "ໆ", "ໝ", "$", ")", SPACE],
+    ],
+    IT: [
+        ["1", "2", "3", "4", "5", "6", "7", "8", "9", "0", "'", "ì", BACKSPACE],
+        ["q", "w", "e", "r", "t", "y", "u", "i", "o", "p", "è", "+", "ù"],
+        ["a", "s", "d", "f", "g", "h", "j", "k", "l", "ò", "à", ENTER],
+        [SHIFT, "ù", "z", "x", "c", "v", "b", "n", "m", ",", ".", "-", SPACE],
+    ],
+    IT_: [
+        ["!", '"', "£", "$", "%", "&", "/", "(", ")", "=", "?", "í", BACKSPACE],
+        ["Q", "W", "E", "R", "T", "Y", "U", "I", "O", "P", "é", "*", "ú"],
+        ["A", "S", "D", "F", "G", "H", "J", "K", "L", "ç", "ó", ENTER],
+        [SHIFT, "ú", "Z", "X", "C", "V", "B", "N", "M", ";", ":", "_", SPACE],
     ],
 };
