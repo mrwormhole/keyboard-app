@@ -172,21 +172,20 @@ const isSyllable = (char: string): boolean => {
     return code >= HANGUL_BASE && code <= HANGUL_BASE + INITIAL_COUNT * MEDIAL_COUNT * FINAL_COUNT - 1;
 };
 
+const decomposeSyllable = (syllable: string): [number, number, number] => {
+    const code = syllable.charCodeAt(0) - HANGUL_BASE;
+    const initial = Math.floor(code / (MEDIAL_COUNT * FINAL_COUNT));
+    const medial = Math.floor((code % (MEDIAL_COUNT * FINAL_COUNT)) / FINAL_COUNT);
+    const final = code % FINAL_COUNT;
+    return [initial, medial, final];
+};
+
+const composeSyllable = (initial: number, medial: number, final: number): string => {
+    const code = HANGUL_BASE + initial * MEDIAL_COUNT * FINAL_COUNT + medial * FINAL_COUNT + final;
+    return String.fromCharCode(code);
+};
+
 export function composeKorean(existingText: string, newChar: string): { text: string; cursorPos: number } {
-    const decomposeSyllable = (syllable: string): [number, number, number] => {
-        const code = syllable.charCodeAt(0) - HANGUL_BASE;
-        const initial = Math.floor(code / (MEDIAL_COUNT * FINAL_COUNT));
-        const medial = Math.floor((code % (MEDIAL_COUNT * FINAL_COUNT)) / FINAL_COUNT);
-        const final = code % FINAL_COUNT;
-        return [initial, medial, final];
-    };
-
-    const composeSyllable = (initial: number, medial: number, final: number): string => {
-        const code = HANGUL_BASE + initial * MEDIAL_COUNT * FINAL_COUNT + medial * FINAL_COUNT + final;
-        return String.fromCharCode(code);
-    };
-
-    // If no text or new char is not Korean, just append
     if (existingText.length === 0 || (!isInitial(newChar) && !isMedial(newChar) && !isFinal(newChar))) {
         return { text: existingText + newChar, cursorPos: existingText.length + newChar.length };
     }
@@ -265,6 +264,5 @@ export function composeKorean(existingText: string, newChar: string): { text: st
         }
     }
 
-    // Default: just append the new character
     return { text: existingText + newChar, cursorPos: existingText.length + newChar.length };
 }
