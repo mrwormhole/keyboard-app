@@ -152,6 +152,7 @@ const COMPOUND_FINAL_SPLIT: Record<number, number> = {
 };
 
 // Reverse lookup: get jamo character from indices
+// biome-ignore lint: it is fine for now, this could be useful for debugging
 const INITIAL_TO_CHAR: Record<number, string> = Object.fromEntries(
     Object.entries(COMPAT_TO_INITIAL).map(([k, v]) => [v, k]),
 );
