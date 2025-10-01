@@ -60,7 +60,8 @@ describe("Korean Composition", () => {
             result = composeKorean(result.text, "ㅣ");
             result = composeKorean(result.text, "ㄴ");
             result = composeKorean(result.text, "ㅎ");
-            result = composeKorean(result.text, "ㅘ");
+            result = composeKorean(result.text, "ㅗ");
+            result = composeKorean(result.text, "ㅏ");
             expect(result.text).toBe("민화");
         });
     });
@@ -71,6 +72,62 @@ describe("Korean Composition", () => {
             let result = composeKorean("ㅅ", "ㅐ");
             result = composeKorean(result.text, "ㅃ");
             expect(result.text).toBe("새ㅃ");
+        });
+
+        it("should compose ㅅ + ㅣ + ㄱ + ㅅ = 싟 (double final consonant)", () => {
+            let result = composeKorean("", "ㅅ");
+            result = composeKorean(result.text, "ㅣ");
+            result = composeKorean(result.text, "ㄱ");
+            result = composeKorean(result.text, "ㅅ");
+            expect(result.text).toBe("싟");
+        });
+
+        it("should compose ㅇ + ㅗ + ㅏ + ㄴ = 완 (compound medial vowel)", () => {
+            let result = composeKorean("", "ㅇ");
+            result = composeKorean(result.text, "ㅗ");
+            result = composeKorean(result.text, "ㅏ");
+            result = composeKorean(result.text, "ㄴ");
+            expect(result.text).toBe("완");
+        });
+    });
+
+    describe("Progressive letter-by-letter composition: 안녕하세요", () => {
+        it("should progressively convert composable letters into hangul syllables", () => {
+            let result = composeKorean("", "ㅇ");
+            expect(result.text).toBe("ㅇ");
+
+            result = composeKorean(result.text, "ㅏ");
+            expect(result.text).toBe("아");
+
+            result = composeKorean(result.text, "ㄴ");
+            expect(result.text).toBe("안");
+
+            result = composeKorean(result.text, "ㄴ");
+            expect(result.text).toBe("안ㄴ");
+
+            result = composeKorean(result.text, "ㅕ");
+            expect(result.text).toBe("안녀");
+
+            result = composeKorean(result.text, "ㅇ");
+            expect(result.text).toBe("안녕");
+
+            result = composeKorean(result.text, "ㅎ");
+            expect(result.text).toBe("안녕ㅎ");
+
+            result = composeKorean(result.text, "ㅏ");
+            expect(result.text).toBe("안녕하");
+
+            result = composeKorean(result.text, "ㅅ");
+            expect(result.text).toBe("안녕핫");
+
+            result = composeKorean(result.text, "ㅔ");
+            expect(result.text).toBe("안녕하세");
+
+            result = composeKorean(result.text, "ㅇ");
+            expect(result.text).toBe("안녕하셍");
+
+            result = composeKorean(result.text, "ㅛ");
+            expect(result.text).toBe("안녕하세요");
         });
     });
 });
