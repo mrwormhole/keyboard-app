@@ -413,10 +413,24 @@ document.addEventListener("DOMContentLoaded", async () => {
                 },
             }),
             await MenuItem.new({
+                id: "korean",
+                text: "Select Korean",
+                action: () => {
+                    app.setLanguage("KR");
+                },
+            }),
+            await MenuItem.new({
                 id: "lao",
                 text: "Select Lao",
                 action: () => {
                     app.setLanguage("LO");
+                },
+            }),
+            await MenuItem.new({
+                id: "tibetan",
+                text: "Select Tibetan",
+                action: () => {
+                    app.setLanguage("BO");
                 },
             }),
             await MenuItem.new({
@@ -438,27 +452,6 @@ document.addEventListener("DOMContentLoaded", async () => {
                 text: "Select Vietnamese",
                 action: () => {
                     app.setLanguage("VI");
-                },
-            }),
-            await MenuItem.new({
-                id: "lao",
-                text: "Select Lao",
-                action: () => {
-                    app.setLanguage("LO");
-                },
-            }),
-            await MenuItem.new({
-                id: "korean",
-                text: "Select Korean",
-                action: () => {
-                    app.setLanguage("KR");
-                },
-            }),
-            await MenuItem.new({
-                id: "tibetan",
-                text: "Select Tibetan",
-                action: () => {
-                    app.setLanguage("BO");
                 },
             }),
         ],
