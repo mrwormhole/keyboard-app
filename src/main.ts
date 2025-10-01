@@ -13,6 +13,7 @@ import {
     SHIFT,
     SPACE,
 } from "./keyboard.ts";
+import { defaultWindowIcon } from '@tauri-apps/api/app';
 
 type KeyData = {
     key: string; // Store button's data-key
@@ -317,7 +318,6 @@ class KeyboardApp {
         const textBefore = this.textInput.value.substring(0, start);
         const textAfter = this.textInput.value.substring(end);
 
-        // Handle Korean composition if current language is Korean
         if (this.currentLanguage === "KR") {
             const result = this.composeKorean(textBefore, character);
             this.textInput.value = result.text + textAfter;
@@ -657,6 +657,10 @@ document.addEventListener("DOMContentLoaded", async () => {
     const trayMenu = await Menu.new({
         items: [languagesSubmenu, actionsSubmenu, separator, quitItem],
     });
-    const tray = await TrayIcon.new();
-    await tray.setMenu(trayMenu);
+    const icon = await defaultWindowIcon();
+    if (!icon) {
+        throw new Error("Failed to load default window icon");
+    }
+    const tray = await TrayIcon.new({icon: icon, tooltip: "Keyboard App"});
+    tray.setMenu(trayMenu);
 });
