@@ -1,5 +1,5 @@
 import { defaultWindowIcon } from "@tauri-apps/api/app";
-import { Menu, MenuItem, PredefinedMenuItem, Submenu } from "@tauri-apps/api/menu";
+import { Menu, MenuItem, Submenu, PredefinedMenuItem } from "@tauri-apps/api/menu";
 import { TrayIcon } from "@tauri-apps/api/tray";
 import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { exit } from "@tauri-apps/plugin-process";
@@ -507,6 +507,5 @@ document.addEventListener("DOMContentLoaded", async () => {
     if (!icon) {
         throw new Error("Failed to load default window icon");
     }
-    const tray = await TrayIcon.new({ icon: icon, tooltip: "Keyboard App" });
-    tray.setMenu(trayMenu);
+    await TrayIcon.new({ icon: icon, tooltip: "Keyboard App", menu: trayMenu });
 });
