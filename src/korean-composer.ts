@@ -79,6 +79,26 @@ const COMPAT_TO_FINAL: Record<string, number> = {
     ㅎ: 27,
 };
 
+// Map final consonant index to initial consonant index
+const FINAL_TO_INITIAL: Record<number, number> = {
+    1: 0, // ㄱ
+    2: 1, // ㄲ
+    4: 2, // ㄴ
+    7: 3, // ㄷ
+    8: 5, // ㄹ
+    16: 6, // ㅁ
+    17: 7, // ㅂ
+    19: 9, // ㅅ
+    20: 10, // ㅆ
+    21: 11, // ㅇ
+    22: 12, // ㅈ
+    23: 14, // ㅊ
+    24: 15, // ㅋ
+    25: 16, // ㅌ
+    26: 17, // ㅍ
+    27: 18, // ㅎ
+};
+
 const isInitial = (char: string): boolean => char in COMPAT_TO_INITIAL;
 const isMedial = (char: string): boolean => char in COMPAT_TO_MEDIAL;
 const isFinal = (char: string): boolean => char in COMPAT_TO_FINAL;
@@ -122,25 +142,27 @@ export function composeKorean(existingText: string, newChar: string): { text: st
     if (isSyllable(lastChar)) {
         const [initial, medial, final] = decomposeSyllable(lastChar);
 
-        // Case 2a: Syllable has no final, new char is a final consonant
+        // Case 2a: Syllable has no final, new char can be final - add it as final
         if (final === 0 && isFinal(newChar)) {
             const newFinal = COMPAT_TO_FINAL[newChar];
             const syllable = composeSyllable(initial, medial, newFinal);
             return { text: beforeLast + syllable, cursorPos: beforeLast.length + 1 };
         }
 
-        // Case 2b: Syllable has no final, new char is an initial consonant (start new syllable)
-        if (final === 0 && isInitial(newChar)) {
+        // Case 2b: Syllable has no final, new char is only initial (not final) - start new syllable
+        if (final === 0 && isInitial(newChar) && !isFinal(newChar)) {
             return { text: existingText + newChar, cursorPos: existingText.length + 1 };
         }
 
         // Case 2c: Syllable has a final, new char is a medial vowel (split final to new syllable)
         if (final > 0 && isMedial(newChar)) {
             const syllableWithoutFinal = composeSyllable(initial, medial, 0);
-            const finalAsInitial = final - 1; // Convert final index to initial index (they overlap)
-            const newMedial = COMPAT_TO_MEDIAL[newChar];
-            const newSyllable = composeSyllable(finalAsInitial, newMedial, 0);
-            return { text: beforeLast + syllableWithoutFinal + newSyllable, cursorPos: beforeLast.length + 2 };
+            const finalAsInitial = FINAL_TO_INITIAL[final];
+            if (finalAsInitial !== undefined) {
+                const newMedial = COMPAT_TO_MEDIAL[newChar];
+                const newSyllable = composeSyllable(finalAsInitial, newMedial, 0);
+                return { text: beforeLast + syllableWithoutFinal + newSyllable, cursorPos: beforeLast.length + 2 };
+            }
         }
     }
 
