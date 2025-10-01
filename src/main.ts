@@ -315,18 +315,17 @@ class KeyboardApp {
 
         const start = this.textInput.selectionStart || 0;
         const end = this.textInput.selectionEnd || 0;
-
         const textBefore = this.textInput.value.substring(0, start);
         const textAfter = this.textInput.value.substring(end);
 
         if (this.currentLanguage === "KR") {
-            const result = composeKorean(textBefore, character);
-            this.textInput.value = result.text + textAfter;
-            this.textInput.setSelectionRange(result.cursorPos, result.cursorPos);
+            const { text, cursorPos } = composeKorean(textBefore, character);
+            this.textInput.value = text + textAfter;
+            this.textInput.setSelectionRange(cursorPos, cursorPos);
         } else {
             this.textInput.value = textBefore + character + textAfter;
-            const newCursorPosition = start + character.length;
-            this.textInput.setSelectionRange(newCursorPosition, newCursorPosition);
+            const cursorPos = start + character.length;
+            this.textInput.setSelectionRange(cursorPos, cursorPos);
         }
 
         this.textInput.focus();
