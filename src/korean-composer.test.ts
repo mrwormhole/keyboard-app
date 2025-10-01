@@ -54,6 +54,15 @@ describe("Korean Composition", () => {
             result = composeKorean(result.text, "ㄹ");
             expect(result.text).toBe("한글");
         });
+
+        it("should handle 민화 composition", () => {
+            let result = composeKorean("", "ㅁ");
+            result = composeKorean(result.text, "ㅣ");
+            result = composeKorean(result.text, "ㄴ");
+            result = composeKorean(result.text, "ㅎ");
+            result = composeKorean(result.text, "ㅘ");
+            expect(result.text).toBe("민화");
+        });
     });
 
     describe("Edge cases", () => {
