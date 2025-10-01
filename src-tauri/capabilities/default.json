@@ -5,6 +5,9 @@
   "windows": ["main"],
   "permissions": [
     "core:default",
-    "opener:default"
+    "core:app:allow-default-window-icon",
+    "clipboard-manager:allow-read-text",
+    "clipboard-manager:allow-write-text",
+    "process:allow-exit"
   ]
 }

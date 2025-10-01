@@ -1,15 +1,20 @@
-import { Menu, MenuItem, Submenu } from "@tauri-apps/api/menu";
-
+import { defaultWindowIcon } from "@tauri-apps/api/app";
+import { Menu, MenuItem, PredefinedMenuItem, Submenu } from "@tauri-apps/api/menu";
+import { TrayIcon } from "@tauri-apps/api/tray";
+import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
+import { exit } from "@tauri-apps/plugin-process";
 import {
     BACKSPACE,
     ENTER,
     KEYBOARD_LAYOUTS,
     type LanguageCode,
     type LayoutKey,
+    NOOP,
     ORIGINAL_LAYOUT,
     SHIFT,
     SPACE,
 } from "./keyboard.ts";
+import { composeKorean } from "./korean-composer.ts";
 
 type KeyData = {
     key: string; // Store button's data-key
@@ -277,7 +282,11 @@ class KeyboardApp {
                     const mappedChar: string = currentLayout[i]?.[j];
                     const mappedSpan: HTMLSpanElement = b.element.querySelector(".key-mapped") as HTMLSpanElement;
                     if (mappedChar && mappedSpan) {
-                        mappedSpan.textContent = mappedChar;
+                        if (mappedChar !== NOOP) {
+                            mappedSpan.textContent = mappedChar;
+                        } else {
+                            mappedSpan.textContent = "";
+                        }
                     }
                 });
             }
@@ -298,6 +307,10 @@ class KeyboardApp {
     }
 
     private appendToInput(character: string): void {
+        if (character === NOOP) {
+            return;
+        }
+
         this.saveState();
 
         const start = this.textInput.selectionStart || 0;
@@ -305,10 +318,16 @@ class KeyboardApp {
         const textBefore = this.textInput.value.substring(0, start);
         const textAfter = this.textInput.value.substring(end);
 
-        this.textInput.value = textBefore + character + textAfter;
+        if (this.currentLanguage === "KR") {
+            const { text, cursorPos } = composeKorean(textBefore, character);
+            this.textInput.value = text + textAfter;
+            this.textInput.setSelectionRange(cursorPos, cursorPos);
+        } else {
+            this.textInput.value = textBefore + character + textAfter;
+            const cursorPos = start + character.length;
+            this.textInput.setSelectionRange(cursorPos, cursorPos);
+        }
 
-        const newCursorPosition = start + character.length;
-        this.textInput.setSelectionRange(newCursorPosition, newCursorPosition);
         this.textInput.focus();
     }
 
@@ -354,12 +373,12 @@ class KeyboardApp {
 
     async copyText(): Promise<void> {
         if (this.textInput.value) {
-            await navigator.clipboard.writeText(this.textInput.value);
+            await writeText(this.textInput.value);
         }
     }
 
     async pasteText(): Promise<void> {
-        const text = await navigator.clipboard.readText();
+        const text = await readText();
         if (text) {
             this.appendToInput(text);
         }
@@ -421,6 +440,20 @@ document.addEventListener("DOMContentLoaded", async () => {
                     app.setLanguage("VI");
                 },
             }),
+            await MenuItem.new({
+                id: "lao",
+                text: "Select Lao",
+                action: () => {
+                    app.setLanguage("LO");
+                },
+            }),
+            await MenuItem.new({
+                id: "korean",
+                text: "Select Korean",
+                action: () => {
+                    app.setLanguage("KR");
+                },
+            }),
         ],
     });
 
@@ -455,4 +488,23 @@ document.addEventListener("DOMContentLoaded", async () => {
         items: [languagesSubmenu, actionsSubmenu],
     });
     menu.setAsAppMenu();
+
+    const separator = await PredefinedMenuItem.new({
+        text: "separator-text",
+        item: "Separator",
+    });
+    const quitItem = await MenuItem.new({
+        id: "quit",
+        text: "Quit",
+        action: async () => await exit(0),
+    });
+
+    const trayMenu = await Menu.new({
+        items: [languagesSubmenu, actionsSubmenu, separator, quitItem],
+    });
+    const icon = await defaultWindowIcon();
+    if (!icon) {
+        throw new Error("Failed to load default window icon");
+    }
+    await TrayIcon.new({ icon: icon, tooltip: "Keyboard App", menu: trayMenu });
 });
