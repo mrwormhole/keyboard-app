@@ -1,5 +1,5 @@
 import { defaultWindowIcon } from "@tauri-apps/api/app";
-import { Menu, MenuItem, Submenu, PredefinedMenuItem } from "@tauri-apps/api/menu";
+import { Menu, MenuItem, PredefinedMenuItem, Submenu } from "@tauri-apps/api/menu";
 import { TrayIcon } from "@tauri-apps/api/tray";
 import { readText, writeText } from "@tauri-apps/plugin-clipboard-manager";
 import { exit } from "@tauri-apps/plugin-process";
