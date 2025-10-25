@@ -24,7 +24,7 @@ pnpm tauri build # or npm tauri build
 
 - What are supported languages?
 
-German, Italian, Lao, Thai, Turkish, Vietnamese
+German, Italian, Korean, Lao, Thai, Turkish, Vietnamese
 
 - What platforms are supported?
 
